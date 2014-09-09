@@ -1,5 +1,5 @@
 
-ssh root@10.16.132.218 "/home/root/wtf_is_script_name.sh" # TODO update file path
+ssh gatling "su gatling - -c \"cd /home/gatling/gatling-puppet-load-test/gatling2-sims/; ./run.sh\""
 
 echo "done."
 

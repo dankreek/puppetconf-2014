@@ -23,12 +23,9 @@ echo "Restoring and restarting all VMs. Ensure the vmware console is closed on e
 
 revert $VMHOST_1 $PUPPETMASTER1 puppetmaster1
 revert $VMHOST_2 $PUPPETMASTER2 puppetmaster2
+revert $VMHOST_1 $GRAFANA grafana
 revert $VMHOST_1 $HAPROXY haproxy
 revert $VMHOST_2 $GATLING gatling
-revert $VMHOST_1 $GRAFANA grafana
-
-echo "Starting Puppet masters"
-"$(dirname "$0")/start-masters.sh"
 
 echo "done."
 
