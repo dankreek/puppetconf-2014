@@ -16,10 +16,10 @@ revert () {
     ssh $1 "vmrun start $2 nogui"
 
     echo "Rebooting $3"
-    ssh $3 "reboot"
+    ssh root@$3 "reboot"
 }
 
-echo "Restoring and restarting all VMs. Ensure the vmware GUI is not open\n."
+echo "Restoring and restarting all VMs. Ensure the vmware GUI is not open."
 
 revert $VMHOST_1 $PUPPETMASTER1 puppetmaster1
 revert $VMHOST_2 $PUPPETMASTER2 puppetmaster2
