@@ -19,7 +19,7 @@ revert () {
     ssh $3 "reboot"
 }
 
-echo "Restoring and restarting all VMs. Ensure the vmware console is closed on each system."
+echo "Restoring and restarting all VMs. Ensure the vmware GUI is not open\n."
 
 revert $VMHOST_1 $PUPPETMASTER1 puppetmaster1
 revert $VMHOST_2 $PUPPETMASTER2 puppetmaster2
