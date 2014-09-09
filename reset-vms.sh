@@ -27,5 +27,8 @@ revert $VMHOST_1 $HAPROXY haproxy
 revert $VMHOST_2 $GATLING gatling
 revert $VMHOST_1 $GRAFANA grafana
 
+echo "Starting Puppet masters"
+"$(dirname "$0")/start-masters.sh"
+
 echo "done."
 
