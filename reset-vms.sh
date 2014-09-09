@@ -1,38 +1,31 @@
+VM_DIR=/home/justin.may/vmware
+HAPROXY=$VM_DIR/haproxy/haproxy.vmx 
+PUPPETMASTER1=$VM_DIR/puppetserver/puppetserver.vmx 
+PUPPETMASTER2=$VM_DIR/puppetmaster2/puppetmaster2.vmx 
+GATLING=$VM_DIR/gatling/gatling.vmx 
+GRAFANA=$VM_DIR/grafana/grafana.vmx 
 
-# master 1
+VMHOST_1=demo1
+VMHOST_2=demo2
 
-echo "restoring master 1 VM to snapshot..."
-ssh justin.may@puppetconf-demo1.platform.eng.puppetlabs.net "vmrun revertToSnapshot ./vmware/puppetserver/puppetserver.vmx \"master process running\""
+revert () {
+    echo "Reverting $1:$2 to demo_start snapshot"
+    ssh $1 "vmrun revertToSnapshot $2 demo_start"
+    
+    echo "Starting $1:$2"
+    ssh $1 "vmrun start $2 nogui"
 
-echo "starting master 1 VM..."
-ssh justin.may@puppetconf-demo1.platform.eng.puppetlabs.net "vmrun start ./vmware/puppetserver/puppetserver.vmx nogui"
+    echo "Rebooting $3"
+    ssh $3 "reboot"
+}
 
-# master 2
+echo "Restoring and restarting all VMs. Ensure the vmware console is closed on each system."
 
-echo "restoring master 2 VM to snapshot..."
-ssh justin.may@puppetconf-demo2.platform.eng.puppetlabs.net "vmrun revertToSnapshot ./vmware/puppetmaster2/puppetmaster2.vmx \"master process running\""
-
-echo "starting master 2 VM..."
-ssh justin.may@puppetconf-demo2.platform.eng.puppetlabs.net "vmrun start ./vmware/puppetmaster2/puppetmaster2.vmx nogui"
-
-# gatling 
-
-echo "restoring gatling VM to snapshot..."
-ssh root@10.16.132.218 "vmrun revertToSnapshot ./vmware/puppetmaster2/puppetmaster2.vmx \"master process running\"" # TODO update VM file and snapshot ID
-
-echo "starting gatling VM..."
-ssh root@10.16.132.218 "vmrun start ./vmware/puppetmaster2/puppetmaster2.vmx nogui" # TODO update VM file
-
-# haproxy
-
-echo "restoring haproxy VM to snapshot..."
-ssh root@10.16.132.217 "vmrun revertToSnapshot ./vmware/puppetmaster2/puppetmaster2.vmx \"master process running\"" # TODO update VM
- file and snapshot ID
-
-echo "starting haproxy VM..."
-ssh root@10.16.132.217 "vmrun start ./vmware/puppetmaster2/puppetmaster2.vmx nogui" # TODO update VM file
-
-# TODO do we want to do anything with grafana?
+revert $VMHOST_1 $PUPPETMASTER1 puppetmaster1
+revert $VMHOST_2 $PUPPETMASTER2 puppetmaster2
+revert $VMHOST_1 $HAPROXY haproxy
+revert $VMHOST_2 $GATLING gatling
+revert $VMHOST_1 $GRAFANA grafana
 
 echo "done."
 
