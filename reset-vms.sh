@@ -14,12 +14,6 @@ revert () {
     
     echo "Starting $1:$2"
     ssh $1 "vmrun start $2 nogui"
-
-    echo "Running NTP date"
-    ssh root@$3 "ntpdate ntp.apple.com"
-
-    echo "Rebooting $3"
-    ssh root@$3 "reboot"
 }
 
 echo "Restoring and restarting all VMs. Ensure the vmware GUI is not open."
