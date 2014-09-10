@@ -18,11 +18,11 @@ revert () {
 
 echo "Restoring and restarting all VMs. Ensure the vmware GUI is not open."
 
-revert $VMHOST_1 $PUPPETMASTER1 puppetmaster1
-revert $VMHOST_2 $PUPPETMASTER2 puppetmaster2
-revert $VMHOST_1 $GRAFANA grafana
-revert $VMHOST_1 $HAPROXY haproxy
-revert $VMHOST_2 $GATLING gatling
+revert $VMHOST_1 $PUPPETMASTER1 
+revert $VMHOST_2 $PUPPETMASTER2 
+revert $VMHOST_1 $GRAFANA 
+revert $VMHOST_1 $HAPROXY 
+revert $VMHOST_2 $GATLING 
 
 echo "done."
 
